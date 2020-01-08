@@ -46,7 +46,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
     private TextView textTime, textMod;
     private CountDownTimer timer;
     private Button[][] tabla = new Button[9][9];
-    private RelativeLayout layout;
+    private RelativeLayout layout;//tabla
     private Button selected = null;
     private ProgressBar bar;
     private Spinner difficulty;
@@ -73,11 +73,11 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(), android.R.layout.simple_spinner_dropdown_item, levels);
         difficulty.setAdapter(adapter);
 
-        layout.post(new Runnable() {
+        layout.post(new Runnable() {//nakon sto je layout postavljen
             public void run() {
                 int width = layout.getWidth();
                 postavi(width);
-                loadTable();
+                loadTable();//ucitava zapamcenu igru ako postoji
             }
         });
 
@@ -94,7 +94,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
             numeric.setOnClickListener(this);
         }
 
-
         return view;
     }
 
@@ -109,11 +108,11 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         if(v.getId() == R.id.butProvera && !win)
             provera();
 
-        if(v.getTag() != null && selected != null)
+        if(v.getTag() != null && selected != null)//numericki dugmici
             selected.setText(((Button) v).getText().toString());
     }
 
-    public void postavi(int width) {
+    public void postavi(int width) {//generise tablu
 
         int sirina = width / 9;
 
@@ -131,6 +130,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                 but.setBackgroundColor(Color.WHITE);
 
 
+                //pravi razmake na svaka tri polja
                 if (x < 3)
                     but.setX(x * sirina);
                 if (x >= 3 && x < 6)
@@ -170,9 +170,78 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         bar.setVisibility(View.VISIBLE);
         GetSudoku gs = new GetSudoku();
         gs.execute();
-        setTimer(0);
+
     }
 
+    public class GetSudoku extends AsyncTask<String, Integer, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+            try {
+
+                URL url = new URL("http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9?level=" + level);
+                HttpURLConnection konekcija = (HttpURLConnection) url.openConnection();
+                konekcija.setRequestMethod("GET");
+
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(konekcija.getInputStream()));
+
+                if (konekcija.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    //String response = "{\"response\":true,\"size\":\"9?level=3\",\"squares\":[{\"x\":0,\"y\":3,\"value\":1},{\"x\":0,\"y\":4,\"value\":2},{\"x\":0,\"y\":5,\"value\":5},{\"x\":0,\"y\":7,\"value\":7},{\"x\":0,\"y\":8,\"value\":9},{\"x\":1,\"y\":1,\"value\":7},{\"x\":1,\"y\":2,\"value\":1},{\"x\":1,\"y\":5,\"value\":4},{\"x\":1,\"y\":6,\"value\":5},{\"x\":1,\"y\":7,\"value\":8},{\"x\":2,\"y\":0,\"value\":5},{\"x\":2,\"y\":1,\"value\":2},{\"x\":2,\"y\":5,\"value\":7},{\"x\":2,\"y\":6,\"value\":1},{\"x\":3,\"y\":0,\"value\":3},{\"x\":3,\"y\":3,\"value\":7},{\"x\":3,\"y\":6,\"value\":2},{\"x\":3,\"y\":7,\"value\":9},{\"x\":3,\"y\":8,\"value\":6},{\"x\":4,\"y\":1,\"value\":9},{\"x\":4,\"y\":3,\"value\":6},{\"x\":4,\"y\":4,\"value\":4},{\"x\":4,\"y\":5,\"value\":1},{\"x\":5,\"y\":0,\"value\":7},{\"x\":5,\"y\":1,\"value\":5},{\"x\":5,\"y\":2,\"value\":6},{\"x\":5,\"y\":8,\"value\":8},{\"x\":6,\"y\":0,\"value\":2},{\"x\":6,\"y\":7,\"value\":3},{\"x\":6,\"y\":8,\"value\":7},{\"x\":7,\"y\":1,\"value\":8},{\"x\":7,\"y\":2,\"value\":7},{\"x\":7,\"y\":3,\"value\":4},{\"x\":7,\"y\":6,\"value\":6},{\"x\":7,\"y\":7,\"value\":2},{\"x\":8,\"y\":2,\"value\":5},{\"x\":8,\"y\":3,\"value\":8},{\"x\":8,\"y\":4,\"value\":7},{\"x\":8,\"y\":5,\"value\":2},{\"x\":8,\"y\":6,\"value\":9}]}";
+                    String response = bufferedReader.readLine();
+                    JSONObject object = new JSONObject(response);
+
+                    publishProgress(100);
+                    return object;
+                }
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            if (values[0] == 100)
+                bar.setVisibility(View.INVISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject object) {
+            super.onPostExecute(object);
+
+            clearTable();
+
+            try {
+                JSONArray niz = new JSONArray(object.getString("squares"));
+
+                for (int i = 0; i < niz.length(); i++) {
+                    JSONObject polje = niz.getJSONObject(i);
+                    int x = polje.getInt("x");
+                    int y = polje.getInt("y");
+                    int value = polje.getInt("value");
+
+                    tabla[x][y].setText(value + "");
+                    tabla[x][y].setClickable(false);
+                    tabla[x][y].setBackgroundColor(Color.rgb(224, 224, 224));//siva boja
+
+                    setTimer(0);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
 
 
     public void provera() {
@@ -261,10 +330,11 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
             for (int y = 0; y < 9; y++)
                 tabla[x][y].setClickable(false);
 
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
-        builder1.setMessage("Pobeda\nTežina: "+mod+"\nVreme: "+vreme);
-        builder1.setCancelable(true);
-        builder1.show();
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setMessage("Pobeda\nTežina: "+mod+"\nVreme: "+vreme);
+        dialog.setCancelable(true);
+        dialog.setPositiveButton("OK",null);
+        dialog.show();
 
     }
 
@@ -275,74 +345,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
     }
 
 
-    public class GetSudoku extends AsyncTask<String, Integer, JSONObject> {
-
-        @Override
-        protected JSONObject doInBackground(String... strings) {
-            try {
-
-                URL url = new URL("http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9?level=" + level);
-                HttpURLConnection konekcija = (HttpURLConnection) url.openConnection();
-                konekcija.setRequestMethod("GET");
-
-                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(konekcija.getInputStream()));
-
-                if (konekcija.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                    //String response = "{\"response\":true,\"size\":\"9?level=3\",\"squares\":[{\"x\":0,\"y\":3,\"value\":1},{\"x\":0,\"y\":4,\"value\":2},{\"x\":0,\"y\":5,\"value\":5},{\"x\":0,\"y\":7,\"value\":7},{\"x\":0,\"y\":8,\"value\":9},{\"x\":1,\"y\":1,\"value\":7},{\"x\":1,\"y\":2,\"value\":1},{\"x\":1,\"y\":5,\"value\":4},{\"x\":1,\"y\":6,\"value\":5},{\"x\":1,\"y\":7,\"value\":8},{\"x\":2,\"y\":0,\"value\":5},{\"x\":2,\"y\":1,\"value\":2},{\"x\":2,\"y\":5,\"value\":7},{\"x\":2,\"y\":6,\"value\":1},{\"x\":3,\"y\":0,\"value\":3},{\"x\":3,\"y\":3,\"value\":7},{\"x\":3,\"y\":6,\"value\":2},{\"x\":3,\"y\":7,\"value\":9},{\"x\":3,\"y\":8,\"value\":6},{\"x\":4,\"y\":1,\"value\":9},{\"x\":4,\"y\":3,\"value\":6},{\"x\":4,\"y\":4,\"value\":4},{\"x\":4,\"y\":5,\"value\":1},{\"x\":5,\"y\":0,\"value\":7},{\"x\":5,\"y\":1,\"value\":5},{\"x\":5,\"y\":2,\"value\":6},{\"x\":5,\"y\":8,\"value\":8},{\"x\":6,\"y\":0,\"value\":2},{\"x\":6,\"y\":7,\"value\":3},{\"x\":6,\"y\":8,\"value\":7},{\"x\":7,\"y\":1,\"value\":8},{\"x\":7,\"y\":2,\"value\":7},{\"x\":7,\"y\":3,\"value\":4},{\"x\":7,\"y\":6,\"value\":6},{\"x\":7,\"y\":7,\"value\":2},{\"x\":8,\"y\":2,\"value\":5},{\"x\":8,\"y\":3,\"value\":8},{\"x\":8,\"y\":4,\"value\":7},{\"x\":8,\"y\":5,\"value\":2},{\"x\":8,\"y\":6,\"value\":9}]}";
-                    String response = bufferedReader.readLine();
-                    JSONObject object = new JSONObject(response);
-
-                    publishProgress(100);
-                    return object;
-                }
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-
-            if (values[0] == 100)
-                bar.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject object) {
-            super.onPostExecute(object);
-
-            clearTable();
-
-            try {
-                JSONArray niz = new JSONArray(object.getString("squares"));
-
-                for (int i = 0; i < niz.length(); i++) {
-                    JSONObject polje = niz.getJSONObject(i);
-                    int x = polje.getInt("x");
-                    int y = polje.getInt("y");
-                    int value = polje.getInt("value");
-
-                    tabla[x][y].setText(value + "");
-                    tabla[x][y].setClickable(false);
-                    tabla[x][y].setBackgroundColor(Color.rgb(224, 224, 224));
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
-
 
     public void clearTable() {
 
@@ -351,6 +353,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                 tabla[x][y].setText("");
                 tabla[x][y].setClickable(true);
                 tabla[x][y].setBackgroundColor(Color.WHITE);
+                tabla[x][y].setTextColor(Color.BLACK);
             }
 
     }
@@ -394,7 +397,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         if(timer != null)
             timer.cancel();
 
-        timer = new CountDownTimer(3600000-time, 1000) {
+        timer = new CountDownTimer(3600000-time, 1000) {//tajmer broji sat vremena max
 
             public void onTick(long millisUntilFinished) {
                 long time = (3600000-millisUntilFinished);

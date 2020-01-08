@@ -10,8 +10,8 @@
         android:id="@+id/tablaLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
         android:background="@android:color/background_dark"
         app:layout_constraintBottom_toTopOf="@+id/but2"
         app:layout_constraintDimensionRatio="1:1"
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="Nova igra"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -117,7 +117,7 @@
         android:id="@+id/butClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Obrisi"
+        android:text="Obriši"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/but9" />
@@ -145,10 +145,11 @@
         android:id="@+id/difficulty"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/butNova"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/butNova"
         app:layout_constraintTop_toTopOf="@+id/butNova" />
 
