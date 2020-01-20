@@ -12,11 +12,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    FragmentIgra igra;
-    FragmentRekord rekord;
-    FragmentManager manager;
-    BottomNavigationView meni;
+    private FragmentIgra igra;
+    private FragmentRekord rekord;
+    private FragmentManager manager;
+    private BottomNavigationView meni;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,5 +66,4 @@ public class MainActivity extends AppCompatActivity {
             igra.saveTable();
 
     }
-
 }

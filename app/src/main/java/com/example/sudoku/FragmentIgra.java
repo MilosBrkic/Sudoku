@@ -59,7 +59,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.fragment_igra, container, false);
+        View view = inflater.inflate(R.layout.fragment_igra, container, false);
 
         preferences = this.getActivity().getSharedPreferences("sudoku", Context.MODE_PRIVATE);
         textTime = view.findViewById(R.id.textTime);
@@ -129,7 +129,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                 but.setPadding(0, 0, 0, 0);
                 but.setBackgroundColor(Color.WHITE);
 
-
                 //pravi razmake na svaka tri polja
                 if (x < 3)
                     but.setX(x * sirina);
@@ -146,7 +145,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                 if (y >= 6)
                     but.setY(y * sirina + 10);
 
-
                 but.setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -158,7 +156,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                         selected.setBackgroundColor(Color.YELLOW);
                     }
                 });
-
             }
     }
 
@@ -170,7 +167,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         bar.setVisibility(View.VISIBLE);
         GetSudoku gs = new GetSudoku();
         gs.execute();
-
     }
 
     public class GetSudoku extends AsyncTask<String, Integer, JSONObject> {
@@ -178,7 +174,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         @Override
         protected JSONObject doInBackground(String... strings) {
             try {
-
                 URL url = new URL("http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9?level=" + level);
                 HttpURLConnection konekcija = (HttpURLConnection) url.openConnection();
                 konekcija.setRequestMethod("GET");
@@ -197,11 +192,10 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
+                return null;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
@@ -216,7 +210,11 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(JSONObject object) {
             super.onPostExecute(object);
-
+            if(object == null){
+                Toast.makeText(FragmentIgra.this.getActivity(), "Šema nije preuzeta, proverite intenet konekiju", Toast.LENGTH_LONG).show();
+                bar.setVisibility(View.INVISIBLE);
+                return;
+            }
             clearTable();
 
             try {
@@ -238,9 +236,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
-
     }
 
 
@@ -280,7 +276,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                     }
             }
 
-
         //provera kvadrata 3x3
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)//prolazak kroz 9 kvadrata
@@ -298,10 +293,8 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                                     return;
                                 }
                     }
-
             }
         pobeda();
-
     }
 
     private void pobeda() {
@@ -335,7 +328,6 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
         dialog.setCancelable(true);
         dialog.setPositiveButton("OK",null);
         dialog.show();
-
     }
 
     private void removeError(){
@@ -355,12 +347,10 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                 tabla[x][y].setBackgroundColor(Color.WHITE);
                 tabla[x][y].setTextColor(Color.BLACK);
             }
-
     }
 
 
     public void saveTable() {
-
         baza.clear();
 
         for (int x = 0; x < 9; x++)
@@ -404,11 +394,9 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
                 Date vreme = new Date(time);
                 textTime.setText(new SimpleDateFormat("mm:ss").format(vreme));
             }
-
             public void onFinish() {
                 textTime.setText("59:59");
             }
-
 
         }.start();
     }

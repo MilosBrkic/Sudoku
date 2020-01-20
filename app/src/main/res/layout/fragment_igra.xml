@@ -10,126 +10,25 @@
         android:id="@+id/tablaLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@android:color/background_dark"
-        app:layout_constraintBottom_toTopOf="@+id/but2"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/butNova"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@+id/butNova">
 
     </RelativeLayout>
 
     <Button
         android:id="@+id/butNova"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
         android:text="Nova igra"
+        app:layout_constraintBottom_toTopOf="@+id/tablaLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/but7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="7"
-        android:tag="7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/but4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="4"
-        android:tag="4"
-        app:layout_constraintBottom_toTopOf="@+id/but7"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/but1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1"
-        android:tag="1"
-        app:layout_constraintBottom_toTopOf="@+id/but4"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/but2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2"
-        android:tag="2"
-        app:layout_constraintBottom_toTopOf="@+id/but5"
-        app:layout_constraintStart_toEndOf="@+id/but1" />
-
-    <Button
-        android:id="@+id/but5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5"
-        android:tag="5"
-        app:layout_constraintBottom_toTopOf="@+id/but8"
-        app:layout_constraintStart_toEndOf="@+id/but4" />
-
-    <Button
-        android:id="@+id/but8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="8"
-        android:tag="8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/but7" />
-
-    <Button
-        android:id="@+id/but3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="3"
-        android:tag="3"
-        app:layout_constraintBottom_toTopOf="@+id/but6"
-        app:layout_constraintStart_toEndOf="@+id/but2" />
-
-    <Button
-        android:id="@+id/but6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="6"
-        android:tag="6"
-        app:layout_constraintBottom_toTopOf="@+id/but9"
-        app:layout_constraintStart_toEndOf="@+id/but5" />
-
-    <Button
-        android:id="@+id/but9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="9"
-        android:tag="9"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/but8" />
-
-    <Button
-        android:id="@+id/butClear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Obriši"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/but9" />
-
-    <Button
-        android:id="@+id/butProvera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Proveri"
-        app:layout_constraintBottom_toTopOf="@+id/butClear"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/but6" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -163,13 +62,144 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tablaLayout" />
 
-    <TextView
-        android:id="@+id/txtMod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/textTime"
-        app:layout_constraintTop_toBottomOf="@+id/tablaLayout" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tastatura"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tablaLayout">
+
+        <TextView
+            android:id="@+id/txtMod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="51dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/but8"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="8"
+            android:text="8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/but9"
+            app:layout_constraintStart_toEndOf="@+id/but7"
+            app:layout_constraintTop_toBottomOf="@+id/but5" />
+
+        <Button
+            android:id="@+id/but6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="6"
+            android:text="6"
+            app:layout_constraintBottom_toTopOf="@+id/but9"
+            app:layout_constraintEnd_toStartOf="@+id/butProvera"
+            app:layout_constraintStart_toEndOf="@+id/but5"
+            app:layout_constraintTop_toBottomOf="@+id/but3" />
+
+        <Button
+            android:id="@+id/but1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="1"
+            android:text="1"
+            app:layout_constraintBottom_toTopOf="@+id/but4"
+            app:layout_constraintEnd_toStartOf="@+id/but5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/but3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="3"
+            android:text="3"
+            app:layout_constraintBottom_toTopOf="@+id/but6"
+            app:layout_constraintEnd_toEndOf="@+id/but6"
+            app:layout_constraintStart_toEndOf="@+id/but2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/but5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="5"
+            android:text="5"
+            app:layout_constraintBottom_toTopOf="@+id/but8"
+            app:layout_constraintEnd_toStartOf="@+id/but6"
+            app:layout_constraintStart_toEndOf="@+id/but4"
+            app:layout_constraintTop_toBottomOf="@+id/but2" />
+
+        <Button
+            android:id="@+id/but2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="2"
+            android:text="2"
+            app:layout_constraintBottom_toTopOf="@+id/but5"
+            app:layout_constraintEnd_toStartOf="@+id/but6"
+            app:layout_constraintStart_toEndOf="@+id/but1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/but7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="7"
+            android:text="7"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/but8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/but4" />
+
+        <Button
+            android:id="@+id/but9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="9"
+            android:text="9"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/butClear"
+            app:layout_constraintStart_toEndOf="@+id/but8"
+            app:layout_constraintTop_toBottomOf="@+id/but6" />
+
+        <Button
+            android:id="@+id/but4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:tag="4"
+            android:text="4"
+            app:layout_constraintBottom_toTopOf="@+id/but7"
+            app:layout_constraintEnd_toStartOf="@+id/but5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/but1" />
+
+        <Button
+            android:id="@+id/butProvera"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Proveri"
+            app:layout_constraintBottom_toTopOf="@+id/butClear"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/but6"
+            app:layout_constraintTop_toTopOf="@+id/but6" />
+
+        <Button
+            android:id="@+id/butClear"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="Obriši"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/but9"
+            app:layout_constraintTop_toBottomOf="@+id/but6" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

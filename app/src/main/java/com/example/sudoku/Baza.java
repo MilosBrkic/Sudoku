@@ -53,7 +53,6 @@ public class Baza extends SQLiteOpenHelper {
         LinkedList<Polje> lista = new LinkedList<>();
 
         String query = "SELECT  * FROM polja";
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
