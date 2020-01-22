@@ -161,6 +161,7 @@ public class FragmentIgra extends Fragment implements View.OnClickListener {
 
     public void novaIgra() {
 
+        selected = null;
         win = false;
         level = difficulty.getSelectedItemPosition()+1;
         textMod.setText((CharSequence) difficulty.getSelectedItem());
